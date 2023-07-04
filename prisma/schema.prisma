@@ -11,18 +11,18 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -40,12 +40,12 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  role          String    @default("user")
+  role          String    @default("USER")
 }
 
 model VerificationToken {
@@ -54,4 +54,59 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Media {
+  id              String            @id @default(cuid())
+  fileName        String
+  fileType        String
+  url             String
+  HomeSlider      HomeSlider[]
+  Listing         Listing[]
+  ListingCategory ListingCategory[]
+  ListingImage    ListingImage[]
+}
+
+model HomeSlider {
+  id          String  @id @default(cuid())
+  title       String
+  description String
+  image       Media   @relation(fields: [imageId], references: [id])
+  imageId     String
+  link        String
+  order       Int
+  active      Boolean @default(true)
+}
+
+model ListingCategory {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  thumbnail   Media     @relation(fields: [thumbnailId], references: [id])
+  thumbnailId String
+  order       Int
+  active      Boolean   @default(true)
+  Listing     Listing[]
+}
+
+model Listing {
+  id           String          @id @default(cuid())
+  slug         String          @unique
+  title        String
+  description  String
+  thumbnail    Media           @relation(fields: [thumbnailId], references: [id])
+  thumbnailId  String
+  category     ListingCategory @relation(fields: [categoryId], references: [id])
+  categoryId   String
+  active       Boolean         @default(true)
+  ListingImage ListingImage[]
+}
+
+model ListingImage {
+  listing   Listing @relation(fields: [listingId], references: [id])
+  listingId String
+  image     Media   @relation(fields: [imageId], references: [id])
+  imageId   String
+
+  @@id([listingId, imageId])
 }
