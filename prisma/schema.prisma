@@ -61,6 +61,7 @@ model Media {
   fileName        String
   fileType        String
   url             String
+  createdAt       DateTime          @default(now())
   HomeSlider      HomeSlider[]
   Listing         Listing[]
   ListingCategory ListingCategory[]

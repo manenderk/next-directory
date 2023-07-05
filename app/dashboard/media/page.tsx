@@ -1,9 +1,15 @@
-import AddMediaComponent from "@/app/components/Media/AddMediaComponent";
+import AddMediaComponent from "@/app/dashboard/media/AddMediaComponent";
 import { PRISMA } from "@/libs/prisma";
+import { Media } from "@prisma/client";
 import Image from "next/image";
 
 const MediaPage = async () => {
-  const medias = await PRISMA.media?.findMany() || [];
+  const medias: Media[] =
+    (await PRISMA.media?.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    })) || [];
 
   return (
     <div className="card shadow-lg mb-5">
@@ -16,10 +22,17 @@ const MediaPage = async () => {
       <div className="card-body p-3">
         <div className="row">
           {medias.map((media) => (
-            <div className="col-md-3" key={media.id}>
-              <Image src={media.url} alt={media.fileName} className="img-fluid"/>
+            <div className="col-md-2 mb-4" key={media.id}>
+              {media.fileType === "image" && (
+                <Image
+                  src={media.url}
+                  alt={media.fileName}
+                  className="img-fluid"
+                  width={800}
+                  height={800}
+                />
+              )}
             </div>
-            
           ))}
         </div>
       </div>
