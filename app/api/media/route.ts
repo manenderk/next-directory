@@ -1,3 +1,4 @@
+import { FileType } from "@/globals/FileTypes";
 import { UploadFile } from "@/libs/file";
 import { PRISMA } from "@/libs/prisma";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,13 +11,13 @@ export const POST = async (req: NextRequest) => {
     const file: File = data.get("file") as File;
     const uploadedFileName = await UploadFile(file, UPLOAD_DIR);
     const ext = uploadedFileName.split(".").pop()!;
-    let fileType = "file";
+    let fileType = FileType.File;
     if (["png", "jpg", "jpeg", "gif"].includes(ext)) {
-      fileType = "image";
+      fileType = FileType.Image;
     } else if (["mp4", "webm", "ogg"].includes(ext)) {
-      fileType = "video";
+      fileType = FileType.Video;
     } else if (["mp3", "wav", "ogg"].includes(ext)) {
-      fileType = "audio";
+      fileType = FileType.Audio;
     }
     const fileRec = await PRISMA.media.create({
       data: {
