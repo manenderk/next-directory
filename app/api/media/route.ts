@@ -1,6 +1,8 @@
+import { NextErrorResponse } from "@/globals/ApiFunctions";
 import { FileType } from "@/globals/FileTypes";
 import { UploadFile } from "@/libs/file";
 import { PRISMA } from "@/libs/prisma";
+import { Media } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 const UPLOAD_DIR = process.cwd() + "/public/uploads";
@@ -28,6 +30,17 @@ export const POST = async (req: NextRequest) => {
     });
     return NextResponse.json(fileRec);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextErrorResponse(error);
+  }
+};
+
+export const GET = async (req: NextRequest) => {
+  try {
+    const medias: Media[] = await PRISMA.media.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json(medias);
+  } catch (error: any) {
+    return NextErrorResponse(error);
   }
 };

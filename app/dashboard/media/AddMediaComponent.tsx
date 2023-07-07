@@ -1,4 +1,6 @@
 "use client";
+import { AlertType, ShowAlert } from "@/globals/Alerts/Alert";
+import { ApiRoutes } from "@/globals/ApiRoutes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
@@ -22,11 +24,16 @@ const AddMediaComponent = () => {
     for (let i = 0; i < files.length; i++) {
       const formData = new FormData();
       formData.append("file", files[i]);
-      const resp = await axios.post("/api/media", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      try {
+        const resp = await axios.post(ApiRoutes.CreateMedia, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } catch (error) {
+        console.error(error);
+        ShowAlert("Unable to upload media: " + files[i].name, AlertType.Error);
+      }
       setProgress({
         inProgress: true,
         total: files.length,

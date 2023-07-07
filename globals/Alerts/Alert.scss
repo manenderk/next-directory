@@ -1,0 +1,13 @@
+.toastify-alert {
+  font-family: sans-serif;
+
+  &.info {
+    background: #007bff;
+  }
+  &.error {
+    background: #dc3545;
+  }
+  &.success {
+    background: #28a745;
+  }
+}
