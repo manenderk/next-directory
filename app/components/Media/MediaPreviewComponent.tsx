@@ -1,11 +1,25 @@
 import { FileType } from "@/globals/FileTypes";
 import { Media } from "@prisma/client";
+import Image from "next/image";
 
-const MediaPreviewComponent = ({ media }: { media: Media }) => {
+const MediaPreviewComponent = ({
+  media,
+  height,
+  width,
+}: {
+  media: Media;
+  height?: number;
+  width?: number;
+}) => {
   if (media.fileType === FileType.Image) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img src={media.url} alt={media.fileName} className="img-fluid" loading="lazy" />
+      <Image
+        src={media.url}
+        alt={media.fileName}
+        className="img-fluid"
+        width={width ?? 600}
+        height={height ?? 600}
+      />
     );
   }
 

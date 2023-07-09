@@ -59,6 +59,7 @@ const MediaPickerComponent = ({
       <div className="row">
         <div className="col-md-3">
         <button
+          type="button"
           className={buttonClassName ?? "btn btn-primary m-0"}
           onClick={() => setIsMediaPickerOpened(true)}
         >

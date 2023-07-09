@@ -1,12 +1,14 @@
 "use client";
 
 import MediaPickerComponent from "@/app/components/Media/MediaPickerComponent";
+import MediaPreviewComponent from "@/app/components/Media/MediaPreviewComponent";
+import { HomeSliderWithImage } from "@/app/models/HomeSliderWithImage";
 import { AlertType, ShowAlert } from "@/globals/Alerts/Alert";
 import { FileType } from "@/globals/FileTypes";
 import { Collapse } from "@mantine/core";
 import { HomeSlider } from "@prisma/client";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardPageContainer from "../DashboardPageContainer";
 
 const HomeSliderPage = () => {
@@ -20,19 +22,61 @@ const HomeSliderPage = () => {
     order: 100,
     active: true,
   });
-  
-  const createHomeSlider = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
+  const [sliders, setSliders] = useState<HomeSliderWithImage[]>([]);
+
+  const getSliders = async () => {
     try {
-      e.preventDefault();
-      const {data} = await axios.post("/api/home-slider", formFields);
-      console.log(data);
+      const { data } = await axios.get<HomeSliderWithImage[]>(
+        "/api/home-slider"
+      );
+      setSliders(data);
     } catch (error) {
-      ShowAlert('Unable to save', AlertType.Error);
+      ShowAlert("Unable to get sliders", AlertType.Error);
       console.log(error);
     }
-  }
+  };
+
+  const createHomeSlider = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      const { data } = await axios.post<HomeSliderWithImage>(
+        "/api/home-slider",
+        formFields
+      );
+      const newSliderData = [...sliders, data];
+      newSliderData.sort((a, b) => a.order - b.order);
+      setSliders(newSliderData);
+      setFormFields({
+        id: "",
+        title: "",
+        description: "",
+        link: "",
+        imageId: "",
+        order: 100,
+        active: true,
+      });
+      setDisplayAddSliderForm(false);
+    } catch (error) {
+      ShowAlert("Unable to save", AlertType.Error);
+      console.log(error);
+    }
+  };
+
+  const deleteSlider = async (sliderId: string) => {
+    try {
+      await axios.delete(`/api/home-slider?id=${sliderId}`);
+      const newSliderData = sliders.filter((s) => s.id !== sliderId);
+      setSliders(newSliderData);
+    } catch (error) {
+      ShowAlert("Unable to delete", AlertType.Error);
+      console.log(error);
+    }
+  };
+
+
+  useEffect(() => {
+    getSliders();
+  }, []);
 
   return (
     <DashboardPageContainer
@@ -131,8 +175,46 @@ const HomeSliderPage = () => {
           </div>
         </form>
       </Collapse>
-
-      
+      <div className="row">
+        <div className="col-12">
+          <div className="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <td>Image</td>
+                  <td>Title</td>
+                  <td>Description</td>
+                  <td>Link</td>
+                  <td>Order</td>
+                  <td>Active</td>
+                  <td></td>
+                </tr>
+              </thead>
+              <tbody>
+                {sliders.map((slider) => (
+                  <tr key={slider.id}>
+                    <td>
+                      <MediaPreviewComponent media={slider.image} width={100} height={100} />
+                    </td>
+                    <td>{slider.title}</td>
+                    <td>{slider.description}</td>
+                    <td>{slider.link}</td>
+                    <td>{slider.order}</td>
+                    <td>{slider.active ? "Yes" : "No"}</td>
+                    <td>
+                      <button className="btn btn-danger btn-icon"
+                        onClick={() => deleteSlider(slider.id)}
+                      >
+                        <i className="fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </DashboardPageContainer>
   );
 };

@@ -18,6 +18,14 @@ const MediaPage = async () => {
       headerActions={[<AddMediaComponent key={1} />]}
     >
       <div className="row">
+        <div className="col-md-12">
+          <div className="input-group input-group-dynamic mb-4">
+            <label className="form-label">Title</label>
+            <input type="text" className="form-control" />
+          </div>
+        </div>
+      </div>
+      <div className="row">
         {medias.map((media) => (
           <div className="col-md-2 mb-4" key={media.id}>
             {media.fileType === "image" && (

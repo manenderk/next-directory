@@ -38,4 +38,5 @@ next-env.d.ts
 
 /public/uploads/**/*
 /public/material-kit-master/**/*
+/public/material-kit-react-main/**/*
 /prisma/dev.db

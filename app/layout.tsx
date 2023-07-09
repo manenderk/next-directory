@@ -29,7 +29,7 @@ export default function RootLayout({
           strategy="lazyOnload"
         ></Script>
         <Script
-          src="/assets/js/material-kit.min.js"
+          src="/assets/js/material-kit-customized.js"
           strategy="lazyOnload"
         ></Script>
       </body>
