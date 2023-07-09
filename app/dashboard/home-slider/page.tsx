@@ -73,7 +73,6 @@ const HomeSliderPage = () => {
     }
   };
 
-
   useEffect(() => {
     getSliders();
   }, []);
@@ -194,7 +193,11 @@ const HomeSliderPage = () => {
                 {sliders.map((slider) => (
                   <tr key={slider.id}>
                     <td>
-                      <MediaPreviewComponent media={slider.image} width={100} height={100} />
+                      <MediaPreviewComponent
+                        media={slider.image}
+                        width={100}
+                        height={100}
+                      />
                     </td>
                     <td>{slider.title}</td>
                     <td>{slider.description}</td>
@@ -202,7 +205,8 @@ const HomeSliderPage = () => {
                     <td>{slider.order}</td>
                     <td>{slider.active ? "Yes" : "No"}</td>
                     <td>
-                      <button className="btn btn-danger btn-icon"
+                      <button
+                        className="btn btn-danger btn-icon"
                         onClick={() => deleteSlider(slider.id)}
                       >
                         <i className="fa fa-trash"></i>
