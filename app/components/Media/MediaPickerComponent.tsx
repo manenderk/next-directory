@@ -5,11 +5,14 @@ import { Modal } from "@mantine/core";
 import { Media } from "@prisma/client";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import MediaPreviewComponent from "./MediaPreviewComponent";
 
 const MediaPickerComponent = ({
+  buttonClassName,
   type,
   onMediaSelected,
 }: {
+  buttonClassName?: string;
   type?: FileType;
   onMediaSelected: (media: Media) => void;
 }) => {
@@ -41,19 +44,35 @@ const MediaPickerComponent = ({
     return filteredMedias;
   };
 
+  const handleMediaSelect = (media: Media) => {
+    onMediaSelected(media);
+    setSelectedMedia(media);
+    setIsMediaPickerOpened(false);
+  }
+
   useEffect(() => {
     getMedias();
-  });
+  }, []);
 
   return (
     <div>
-      <div>
+      <div className="row">
+        <div className="col-md-3">
         <button
-          className="btn btn-primary m-0"
+          className={buttonClassName ?? "btn btn-primary m-0"}
           onClick={() => setIsMediaPickerOpened(true)}
         >
           Add Media
         </button>
+        </div>
+        
+        {
+          selectedMedia && (
+            <div className="col-md-3">
+              <MediaPreviewComponent media={selectedMedia} />
+            </div>
+          )
+        }
       </div>
 
 
@@ -74,8 +93,8 @@ const MediaPickerComponent = ({
         </div>
         <div className="row">
           {getFilteredMedias().map((media) => (
-            <div className="col-md-3" key={media.id}>
-              
+            <div className="col-md-3 mb-3" key={media.id} onClick={() => handleMediaSelect(media)}>
+              <MediaPreviewComponent media={media} />
             </div>
           ))}
         </div>

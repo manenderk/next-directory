@@ -28,6 +28,10 @@ export default function RootLayout({
           src="/assets/js/plugins/perfect-scrollbar.min.js"
           strategy="lazyOnload"
         ></Script>
+        <Script
+          src="/assets/js/material-kit.min.js"
+          strategy="lazyOnload"
+        ></Script>
       </body>
     </html>
   );

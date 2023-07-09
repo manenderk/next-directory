@@ -5,7 +5,7 @@ const MediaPreviewComponent = ({ media }: { media: Media }) => {
   if (media.fileType === FileType.Image) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img src={media.url} alt={media.fileName} className="img-fluid" />
+      <img src={media.url} alt={media.fileName} className="img-fluid" loading="lazy" />
     );
   }
 
