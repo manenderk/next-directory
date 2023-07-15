@@ -1,3 +1,4 @@
+import { FileType } from "@/globals/FileTypes";
 import { existsSync } from "fs";
 import { mkdir, writeFile } from "fs/promises";
 
@@ -12,4 +13,17 @@ export const UploadFile = async (file: File, path: string) => {
   }
   await writeFile(filePath, Buffer.from(fileContents));
   return fileName;
-}
+};
+
+export const GetFileType = (fileName: string) => {
+  const ext = fileName.split(".").pop()!;
+  let fileType = FileType.File;
+  if (["png", "jpg", "jpeg", "gif"].includes(ext)) {
+    fileType = FileType.Image;
+  } else if (["mp4", "webm", "ogg"].includes(ext)) {
+    fileType = FileType.Video;
+  } else if (["mp3", "wav", "ogg"].includes(ext)) {
+    fileType = FileType.Audio;
+  }
+  return fileType;
+};

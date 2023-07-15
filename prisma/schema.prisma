@@ -70,11 +70,11 @@ model Media {
 
 model HomeSlider {
   id          String  @id @default(cuid())
-  title       String?
-  description String?
+  title       String
+  description String
   image       Media   @relation(fields: [imageId], references: [id])
   imageId     String
-  link        String?
+  link        String
   order       Int     @default(100)
   active      Boolean @default(true)
 }
@@ -94,12 +94,20 @@ model Listing {
   id           String          @id @default(cuid())
   slug         String          @unique
   title        String
-  description  String
+  text         String
   thumbnail    Media           @relation(fields: [thumbnailId], references: [id])
   thumbnailId  String
   category     ListingCategory @relation(fields: [categoryId], references: [id])
   categoryId   String
+  latitude     Float
+  longitude    Float
+  address      String
+  phone        String
+  email        String
+  website      String?
+  featured     Boolean         @default(false)
   active       Boolean         @default(true)
+  createdAt    DateTime        @default(now())
   ListingImage ListingImage[]
 }
 

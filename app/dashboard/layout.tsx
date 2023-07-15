@@ -122,7 +122,7 @@ export default async function DashboardLayout({
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/dashboard/listings/categories" className="nav-link">
+              <Link href="/dashboard/listing-categories" className="nav-link">
                 Listing Categories
               </Link>
             </li>
