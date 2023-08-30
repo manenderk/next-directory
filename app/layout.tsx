@@ -1,4 +1,6 @@
 import Script from "next/script";
+import Footer from "./components/layout-components/Footer";
+import NavBar from "./components/layout-components/NavBar";
 import "./globals.css";
 
 export const metadata = {
@@ -14,23 +16,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <NavBar />
         {children}
-
-        <Script
-          src="/assets/js/core/popper.min.js"
-          strategy="lazyOnload"
-        ></Script>
-        <Script
-          src="/assets/js/core/bootstrap.min.js"
-          strategy="lazyOnload"
-        ></Script>
-        <Script
-          src="/assets/js/plugins/perfect-scrollbar.min.js"
-          strategy="lazyOnload"
-        ></Script>
+        <Footer />
         <Script
           src="/assets/js/material-kit-customized.js"
           strategy="lazyOnload"
+          type="module"
         ></Script>
       </body>
     </html>

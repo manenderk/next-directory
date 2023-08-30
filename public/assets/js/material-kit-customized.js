@@ -12,43 +12,50 @@
 // The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 // initialization of Popovers
-let popoverTriggerList = [].slice.call(
-  document.querySelectorAll('[data-bs-toggle="popover"]')
-);
-let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-  return new bootstrap.Popover(popoverTriggerEl);
-});
 
-// initialization of Tooltips
-let tooltipTriggerList = [].slice.call(
-  document.querySelectorAll('[data-bs-toggle="tooltip"]')
-);
-let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl);
-});
+import "/assets/js/core/bootstrap.min.js";
+import "/assets/js/core/jquery.min.js";
+//import "/assets/js/core/popper.min.js";
+import "/assets/js/plugins/perfect-scrollbar.min.js";
+import "/assets/js/plugins/slick/slick.min.js";
 
-// helper for adding on all elements multiple attributes
-function setAttributes(el, options) {
-  Object.keys(options).forEach(function (attr) {
-    el.setAttribute(attr, options[attr]);
-  });
-}
+// let popoverTriggerList = [].slice.call(
+//   document.querySelectorAll('[data-bs-toggle="popover"]')
+// );
+// let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+//   return new window.bootstrap.Popover(popoverTriggerEl);
+// });
 
-// activate popovers
-popoverTriggerList = [].slice.call(
-  document.querySelectorAll('[data-toggle="popover"]')
-);
-popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-  return new bootstrap.Popover(popoverTriggerEl);
-});
+// // initialization of Tooltips
+// let tooltipTriggerList = [].slice.call(
+//   document.querySelectorAll('[data-bs-toggle="tooltip"]')
+// );
+// let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+//   return new window.bootstrap.Tooltip(tooltipTriggerEl);
+// });
 
-// activate tooltips
-tooltipTriggerList = [].slice.call(
-  document.querySelectorAll('[data-toggle="tooltip"]')
-);
-tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl);
-});
+// // helper for adding on all elements multiple attributes
+// function setAttributes(el, options) {
+//   Object.keys(options).forEach(function (attr) {
+//     el.setAttribute(attr, options[attr]);
+//   });
+// }
+
+// // activate popovers
+// popoverTriggerList = [].slice.call(
+//   document.querySelectorAll('[data-toggle="popover"]')
+// );
+// popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+//   return new window.bootstrap.Popover(popoverTriggerEl);
+// });
+
+// // activate tooltips
+// tooltipTriggerList = [].slice.call(
+//   document.querySelectorAll('[data-toggle="tooltip"]')
+// );
+// tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+//   return new window.bootstrap.Tooltip(tooltipTriggerEl);
+// });
 
 // Tabs navigation
 
@@ -170,13 +177,15 @@ function getEventTarget(e) {
 
 // End tabs navigation
 
-
-
-document.addEventListener("focus", function (e) {
-  if (e.target.tagName === "INPUT") {
-    e.target.parentElement.classList.add("is-focused");
-  }
-}, true);
+document.addEventListener(
+  "focus",
+  function (e) {
+    if (e.target.tagName === "INPUT") {
+      e.target.parentElement.classList.add("is-focused");
+    }
+  },
+  true
+);
 
 document.addEventListener("keyup", function (e) {
   if (e.target.tagName === "INPUT") {
@@ -188,14 +197,18 @@ document.addEventListener("keyup", function (e) {
   }
 });
 
-document.addEventListener("focusout", function (e) {
-  if (e.target.tagName === "INPUT") {
-    if (e.target.value != "") {
-      e.target.parentElement.classList.add("is-filled");
+document.addEventListener(
+  "focusout",
+  function (e) {
+    if (e.target.tagName === "INPUT") {
+      if (e.target.value != "") {
+        e.target.parentElement.classList.add("is-filled");
+      }
+      e.target.parentElement.classList.remove("is-focused");
     }
-    e.target.parentElement.classList.remove("is-focused");
-  }
-}, true);
+  },
+  true
+);
 
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("btn")) {
@@ -216,7 +229,6 @@ document.addEventListener("click", function (e) {
     }, 600);
   }
 });
-
 
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
